@@ -1,7 +1,9 @@
 // server.js
+require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
+const EventData = require('./model/EventData')
 
 const app = express();
 
@@ -14,7 +16,7 @@ app.use(cors({origin: "*",credentials:true}))
 // Connect to MongoDB
 const connectDB=async()=>{
     try{
-        await mongoose.connect("mongodb+srv://arunsharma:Arun0208@cluster0.8b9nmku.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        await mongoose.connect(process.env.MONGO_URI)
         console.log("database is connected successfully!")
 
     }
@@ -24,20 +26,20 @@ const connectDB=async()=>{
 }
 
 // Define schema and model for event data
-const eventDataSchema = new mongoose.Schema({
-    event: String,
-    timestamp: Date,
-    target: {
-        tagName: String,
-        id: String,
-        innerText: String
-    },
-    ipAddress: String,
-    location: Object,
-    timeSpent: Number
-});
+// const eventDataSchema = new mongoose.Schema({
+//     event: String,
+//     timestamp: Date,
+//     target: {
+//         tagName: String,
+//         id: String,
+//         innerText: String
+//     },
+//     ipAddress: String,
+//     location: Object,
+//     timeSpent: Number
+// });
 
-const EventData = mongoose.model('EventData', eventDataSchema);
+// const EventData = mongoose.model('EventData', eventDataSchema);
 
 // Route to handle incoming event data
 app.get('/',(req,res)=>{
